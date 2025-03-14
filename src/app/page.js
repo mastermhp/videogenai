@@ -1,15 +1,39 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowRight, Video, Zap, Youtube, ShoppingBag, BarChart3, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import FeatureCard from "./components/feature-card"
-import HeroAnimation from "./components/hero-animation"
-import PricingCard from "./components/pricing-card"
-import TestimonialCard from "./components/testimonial-card"
+import Link from "next/link";
+import {
+  ArrowRight,
+  Video,
+  Zap,
+  Youtube,
+  ShoppingBag,
+  BarChart3,
+  Sparkles,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import FeatureCard from "./components/feature-card";
+import HeroAnimation from "./components/hero-animation";
+import PricingCard from "./components/pricing-card";
+import TestimonialCard from "./components/testimonial-card";
+import { useRef, useState } from "react";
+import AnimatedFooter from "./components/animated-footer";
 
 export default function Home() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b">
@@ -19,13 +43,22 @@ export default function Home() {
             <span className="text-xl font-bold">VideoGenAI</span>
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link
+              href="#features"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
               Features
             </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link
+              href="#pricing"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
               Pricing
             </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link
+              href="#testimonials"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
               Testimonials
             </Link>
           </nav>
@@ -58,8 +91,8 @@ export default function Home() {
                   Create Professional Videos with AI
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Transform your content into engaging videos in minutes. Perfect for marketers, content creators, and
-                  educators.
+                  Transform your content into engaging videos in minutes.
+                  Perfect for marketers, content creators, and educators.
                 </p>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/signup">
@@ -84,12 +117,15 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Features</div>
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  Features
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Everything You Need to Create Amazing Videos
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our AI-powered platform makes video creation simple, fast, and professional.
+                  Our AI-powered platform makes video creation simple, fast, and
+                  professional.
                 </p>
               </div>
             </div>
@@ -132,23 +168,34 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">See It in Action</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  See It in Action
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Watch how easy it is to create professional videos with VideoGenAI.
+                  Watch how easy it is to create professional videos with
+                  VideoGenAI.
                 </p>
               </div>
               <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-lg border bg-background shadow-xl">
                 <div className="aspect-video relative bg-black flex items-center justify-center">
-                  <img
-                    src="/placeholder.svg?height=720&width=1280"
-                    alt="Video demo placeholder"
+                  <video
+                    ref={videoRef}
+                    src="demo.mp4"
                     className="w-full h-full object-cover"
+                    onEnded={() => setIsPlaying(false)}
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Button size="lg" variant="outline" className="bg-background/80 backdrop-blur-sm">
-                      Play Demo
-                    </Button>
-                  </div>
+                  {!isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="bg-background/80 backdrop-blur-sm"
+                        onClick={togglePlay}
+                      >
+                        Play Demo
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -159,7 +206,9 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Pricing</div>
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  Pricing
+                </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Choose the Perfect Plan for Your Needs
                 </h2>
@@ -173,7 +222,12 @@ export default function Home() {
                 title="Free Trial"
                 price="$0"
                 description="Try basic features with watermarked exports"
-                features={["3 video exports", "Basic AI script generation", "720p resolution", "Watermarked exports"]}
+                features={[
+                  "3 video exports",
+                  "Basic AI script generation",
+                  "720p resolution",
+                  "Watermarked exports",
+                ]}
                 buttonText="Start Free Trial"
                 buttonVariant="outline"
               />
@@ -229,14 +283,22 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="testimonials" className="py-12 md:py-24 lg:py-32 bg-muted/50">
+        <section
+          id="testimonials"
+          className="py-12 md:py-24 lg:py-32 bg-muted/50"
+        >
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Testimonials</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">What Our Users Say</h2>
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  Testimonials
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  What Our Users Say
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of satisfied creators who use VideoGenAI every day.
+                  Join thousands of satisfied creators who use VideoGenAI every
+                  day.
                 </p>
               </div>
             </div>
@@ -267,14 +329,21 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Ready to Transform Your Content?</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Ready to Transform Your Content?
+                </h2>
                 <p className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of creators who are already using VideoGenAI to create amazing videos.
+                  Join thousands of creators who are already using VideoGenAI to
+                  create amazing videos.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Link href="/signup">
-                  <Button size="lg" variant="secondary" className="gap-1.5 group">
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="gap-1.5 group"
+                  >
                     Get Started for Free
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
@@ -293,7 +362,8 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t py-6 md:py-0">
+      <AnimatedFooter/>
+      {/* <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row px-4 md:px-6">
           <div className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
             <Link href="/" className="flex items-center gap-2">
@@ -305,19 +375,27 @@ export default function Home() {
             </p>
           </div>
           <div className="flex gap-4">
-            <Link href="#" className="text-sm text-muted-foreground hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm text-muted-foreground hover:underline underline-offset-4"
+            >
               Terms
             </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm text-muted-foreground hover:underline underline-offset-4"
+            >
               Privacy
             </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm text-muted-foreground hover:underline underline-offset-4"
+            >
               Contact
             </Link>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
-  )
+  );
 }
-
